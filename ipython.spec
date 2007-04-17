@@ -1,6 +1,6 @@
 %define name ipython
 %define tar_name ipython
-%define version 0.7.3
+%define version 0.8.0
 %define rel 1
 
 Summary: 	An enhanced interactive Python shell
@@ -8,8 +8,7 @@ Name: 		%{name}
 Version: 	%{version}
 Release: 	%mkrel %{rel}
 Source0: 	http://ipython.scipy.org/dist/%{tar_name}-%{version}.tar.bz2
-Patch0:		Shell.py.patch
-Patch1:		setup.py.patch
+Patch0:		setup.py.patch
 License: 	BSD-like
 Group: 		Development/Python
 BuildRoot: 	%{_tmppath}/%{name}-buildroot
@@ -53,7 +52,6 @@ Main features:
 %prep
 %setup -q -n %{tar_name}-%{version}
 %patch0 -p0
-%patch1 -p0
 
 %build
 %__python setup.py build
@@ -61,7 +59,9 @@ Main features:
 %install
 
 %__rm -rf %{buildroot}
-%__python setup.py install --root=%{buildroot} --record=INSTALLED_FILES
+%__python setup.py install --root=%{buildroot} --record=INSTALLED_FILES.tmp
+%__rm -rf %{buildroot}%{_usr}/IPython
+%__grep -v /usr/IPython/Extensions INSTALLED_FILES.tmp > INSTALLED_FILES
 
 #%__rm -Rf %{buildroot}/usr/share/doc/ 
 #%__grep -v /usr/share/doc INSTALLED_FILES.tmp > INSTALLED_FILES
@@ -69,9 +69,6 @@ Main features:
 %clean
 %__rm -rf %{buildroot}
 
-
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
 %doc doc/* README
-
-
