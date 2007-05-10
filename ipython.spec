@@ -1,6 +1,6 @@
 %define name ipython
 %define tar_name ipython
-%define version 0.8.0
+%define version 0.8.1
 %define rel 1
 
 Summary: 	An enhanced interactive Python shell
@@ -61,7 +61,7 @@ Main features:
 %__rm -rf %{buildroot}
 %__python setup.py install --root=%{buildroot} --record=INSTALLED_FILES.tmp
 %__rm -rf %{buildroot}%{_usr}/IPython
-%__grep -v /usr/IPython/Extensions INSTALLED_FILES.tmp > INSTALLED_FILES
+%__grep -v /usr/share/doc/ipython-0.8.1/extensions INSTALLED_FILES.tmp > INSTALLED_FILES
 
 #%__rm -Rf %{buildroot}/usr/share/doc/ 
 #%__grep -v /usr/share/doc INSTALLED_FILES.tmp > INSTALLED_FILES
