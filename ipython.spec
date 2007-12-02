@@ -1,6 +1,6 @@
 %define name ipython
 %define tar_name ipython
-%define version 0.8.1
+%define version 0.8.2
 %define rel 1
 
 Summary: 	An enhanced interactive Python shell
@@ -8,6 +8,7 @@ Name: 		%{name}
 Version: 	%{version}
 Release: 	%mkrel %{rel}
 Source0: 	http://ipython.scipy.org/dist/%{tar_name}-%{version}.tar.bz2
+Source1:	ipython.elc
 Patch0:		setup.py.patch
 License: 	BSD-like
 Group: 		Development/Python
@@ -57,18 +58,17 @@ Main features:
 %__python setup.py build
 
 %install
-
 %__rm -rf %{buildroot}
 %__python setup.py install --root=%{buildroot} --record=INSTALLED_FILES.tmp
 %__rm -rf %{buildroot}%{_usr}/IPython
 %__grep -v /usr/share/doc/ipython-0.8.1/extensions INSTALLED_FILES.tmp > INSTALLED_FILES
-
-#%__rm -Rf %{buildroot}/usr/share/doc/ 
-#%__grep -v /usr/share/doc INSTALLED_FILES.tmp > INSTALLED_FILES
+%__mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
+%__install -m 644 doc/ipython.el %{buildroot}%{_datadir}/emacs/site-lisp/
+%__install -m 644 %SOURCE1 %{buildroot}%{_datadir}/emacs/site-lisp/
 
 %clean
 %__rm -rf %{buildroot}
 
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
-%doc doc/* README
+%{_datadir}/emacs/site-lisp/*
