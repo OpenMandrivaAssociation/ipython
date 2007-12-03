@@ -19,7 +19,6 @@ BuildArch: 	noarch
 Url: 		http://ipython.scipy.org
 
 %description
-
 IPython provides a replacement for the interactive Python interpreter with
 extra functionality.
 
