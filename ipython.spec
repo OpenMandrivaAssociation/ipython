@@ -12,7 +12,6 @@ Source1:	ipython.elc
 Patch0:		setup.py.patch
 License: 	BSD-like
 Group: 		Development/Python
-BuildRoot: 	%{_tmppath}/%{name}-buildroot
 BuildRequires: 	python-devel
 Requires: 	python
 BuildArch: 	noarch
