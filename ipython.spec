@@ -12,6 +12,7 @@ Patch0:		setup.py.patch
 License: 	BSD-like
 Group: 		Development/Python
 Url: 		http://ipython.scipy.org
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires: 	python
 BuildRequires: 	python-devel, emacs
 BuildArch: 	noarch
