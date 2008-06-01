@@ -1,6 +1,6 @@
 %define name	 ipython
 %define tar_name ipython
-%define version  0.8.3
+%define version  0.8.4
 %define rel 	 1
 
 Summary: 	An enhanced interactive Python shell
