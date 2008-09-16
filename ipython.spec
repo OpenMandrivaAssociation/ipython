@@ -1,6 +1,6 @@
 %define name	 ipython
 %define tar_name ipython
-%define version  0.8.4
+%define version  0.9
 %define rel 	 1
 
 Summary: 	An enhanced interactive Python shell
@@ -8,12 +8,20 @@ Name: 		%{name}
 Version: 	%{version}
 Release: 	%mkrel %{rel}
 Source0: 	http://ipython.scipy.org/dist/%{tar_name}-%{version}.tar.lzma
-Patch0:		setup.py.patch
+Patch0:		setupbase.py.patch
 License: 	BSD-like
 Group: 		Development/Python
 Url: 		http://ipython.scipy.org
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires: 	python
+Requires:	python-zope-interface >= 3.4.1
+Requires:	python-twisted >= 8.0.1
+Requires:	python-foolscap >= 0.2.6
+Requires:	python-pexpect >= 2.2
+Suggests:	python-sqlalchemy
+Suggests:	python-httplib2
+Suggests:	python-simplejson
+Suggests:	python-mpi4py
 BuildRequires: 	python-devel, emacs
 BuildArch: 	noarch
 
@@ -46,25 +54,19 @@ which tries to:
   WX applications via special threading flags. The normal Python
   shell can only do this for Tkinter applications.
 
-
 %prep
 %setup -q -n %{tar_name}-%{version}
 %patch0 -p0
 
 %build
 %__python setup.py build
-emacs -batch -f batch-byte-compile doc/ipython.el
+emacs -batch -f batch-byte-compile docs/emacs/ipython.el
 
 %install
 %__rm -rf %{buildroot}
-%__python setup.py install --root=%{buildroot} --record=FILELIST.tmp
+%__python setup.py install --root=%{buildroot} --record=FILELIST
 %__mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
-%__install -m 644 doc/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
-%__rm -f %{buildroot}%{_datadir}/doc/ipython/ipython.el*
-%__rm -f %{buildroot}%{_datadir}/doc/ipython/pycolor.el*
-%__rm -f %{buildroot}%{_datadir}/doc/ipython/*.1
-%__rm -f %{buildroot}%{_datadir}/doc/ipython/*.lzma
-egrep -v 'ipython.*(ipython|pycolor).(1|el|elc|lzma)' FILELIST.tmp > FILELIST
+%__install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
 
 %clean
 %__rm -rf %{buildroot}
@@ -72,3 +74,4 @@ egrep -v 'ipython.*(ipython|pycolor).(1|el|elc|lzma)' FILELIST.tmp > FILELIST
 %files -f FILELIST
 %defattr(-,root,root)
 %{_datadir}/emacs/site-lisp/*
+
