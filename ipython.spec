@@ -1,6 +1,6 @@
 %define name	 ipython
 %define tar_name ipython
-%define version  0.9
+%define version  0.9.1
 %define rel 	 1
 
 Summary: 	An enhanced interactive Python shell
@@ -18,10 +18,8 @@ Requires:	python-zope-interface >= 3.4.1
 Requires:	python-twisted >= 8.0.1
 Requires:	python-foolscap >= 0.2.6
 Requires:	python-pexpect >= 2.2
-Suggests:	python-sqlalchemy
-Suggests:	python-httplib2
-Suggests:	python-simplejson
 Suggests:	python-mpi4py
+Suggests:	wxPython
 BuildRequires: 	python-devel, emacs
 BuildArch: 	noarch
 
