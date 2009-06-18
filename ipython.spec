@@ -1,7 +1,7 @@
 %define name	 ipython
 %define tar_name ipython
 %define version  0.9.1
-%define rel 	 2
+%define rel 	 3
 
 Summary: 	An enhanced interactive Python shell
 Name: 		%{name}
@@ -9,6 +9,11 @@ Version: 	%{version}
 Release: 	%mkrel %{rel}
 Source0: 	http://ipython.scipy.org/dist/%{tar_name}-%{version}.tar.lzma
 Patch0:		setupbase.py.patch
+
+# compatible with earlier versions of python, based on sample at
+# http://code.djangoproject.com/attachment/ticket/8078/sets.diff
+Patch1:		python-2.6.patch
+
 License: 	BSD-like
 Group: 		Development/Python
 Url: 		http://ipython.scipy.org
@@ -55,6 +60,7 @@ which tries to:
 %prep
 %setup -q -n %{tar_name}-%{version}
 %patch0 -p0
+%patch1 -p1
 
 %build
 %__python setup.py build
