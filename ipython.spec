@@ -1,19 +1,13 @@
 %define name	 ipython
-%define tar_name ipython
-%define version  0.9.1
-%define rel 	 3
+%define version  0.10
+%define rel 	 1
 
 Summary: 	An enhanced interactive Python shell
 Name: 		%{name}
 Version: 	%{version}
 Release: 	%mkrel %{rel}
-Source0: 	http://ipython.scipy.org/dist/%{tar_name}-%{version}.tar.lzma
+Source0: 	http://ipython.scipy.org/dist/%{name}-%{version}.tar.gz
 Patch0:		setupbase.py.patch
-
-# compatible with earlier versions of python, based on sample at
-# http://code.djangoproject.com/attachment/ticket/8078/sets.diff
-Patch1:		python-2.6.patch
-
 License: 	BSD-like
 Group: 		Development/Python
 Url: 		http://ipython.scipy.org
@@ -23,6 +17,7 @@ Requires:	python-zope-interface >= 3.4.1
 Requires:	python-twisted >= 8.0.1
 Requires:	python-foolscap >= 0.2.6
 Requires:	python-pexpect >= 2.2
+Requires:	python-OpenSSL
 Suggests:	python-mpi4py
 Suggests:	wxPython
 BuildRequires: 	python-devel, emacs
@@ -58,9 +53,8 @@ which tries to:
   shell can only do this for Tkinter applications.
 
 %prep
-%setup -q -n %{tar_name}-%{version}
+%setup -q -n %{name}-%{version}
 %patch0 -p0
-%patch1 -p1
 
 %build
 %__python setup.py build
