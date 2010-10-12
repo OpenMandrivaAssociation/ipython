@@ -20,10 +20,7 @@ Requires:	python-pexpect >= 2.2
 Requires:	python-OpenSSL
 Suggests:	python-mpi4py
 Suggests:	wxPython
-BuildRequires: 	emacs, python-sphinx, wxPython
-BuildRequires:	python-pexpect >= 2.2
-BuildRequires:	python-foolscap >= 0.2.6
-BuildRequires:	python-twisted >= 8.0.1
+BuildRequires: 	emacs
 %py_requires -d 
 
 %description
@@ -61,11 +58,6 @@ which tries to:
 
 %build
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
-PYTHONDONTWRITEBYTECODE= %__python setup.py build
-pushd docs
-export PYTHONPATH=`dir -d ../build/lib/`
-%make html
-popd
 
 %install
 %__rm -rf %{buildroot}
@@ -78,7 +70,7 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record
 
 %files -f FILELIST
 %defattr(-,root,root)
-%doc README.txt docs/build/html docs/examples
+%doc README.txt docs/examples
 %{_datadir}/emacs/site-lisp/*
 %exclude %_datadir/doc/ipython/manual/ipython.pdf
-
+%exclude %_datadir/doc/ipython/html/
