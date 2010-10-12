@@ -1,5 +1,5 @@
 %define name	 ipython
-%define version  0.10
+%define version  0.10.1
 %define rel 	 1
 
 Summary: 	An enhanced interactive Python shell
@@ -12,7 +12,7 @@ License: 	BSD-like
 Group: 		Development/Python
 Url: 		http://ipython.scipy.org
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Requires: 	python
+BuildArch:      noarch
 Requires:	python-zope-interface >= 3.4.1
 Requires:	python-twisted >= 8.0.1
 Requires:	python-foolscap >= 0.2.6
@@ -20,8 +20,8 @@ Requires:	python-pexpect >= 2.2
 Requires:	python-OpenSSL
 Suggests:	python-mpi4py
 Suggests:	wxPython
-BuildRequires: 	python-devel, emacs
-BuildArch: 	noarch
+BuildRequires: 	emacs, python-sphinx
+%py_requires -d 
 
 %description
 IPython is a free software project (released under the BSD license)
@@ -57,12 +57,12 @@ which tries to:
 %patch0 -p0
 
 %build
-%__python setup.py build
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
+%make -C docs/ html
 
 %install
 %__rm -rf %{buildroot}
-%__python setup.py install --root=%{buildroot} --record=FILELIST
+PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record=FILELIST
 %__mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
 %__install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
 
@@ -71,5 +71,7 @@ emacs -batch -f batch-byte-compile docs/emacs/ipython.el
 
 %files -f FILELIST
 %defattr(-,root,root)
+%doc README.txt docs/build/html docs/examples
 %{_datadir}/emacs/site-lisp/*
+%exclude %_datadir/doc/ipython/manual/ipython.pdf
 
