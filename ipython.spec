@@ -58,6 +58,8 @@ which tries to:
 
 %build
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
+PYTHONDONTWRITEBYTECODE= %__python setup.py build
+export PYTHONPATH=`dir -d ../build/lib*`
 %make -C docs/ html
 
 %install
