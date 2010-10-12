@@ -73,4 +73,3 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record
 %doc README.txt docs/examples
 %{_datadir}/emacs/site-lisp/*
 %exclude %_datadir/doc/ipython/manual/ipython.pdf
-%exclude %_datadir/doc/ipython/html/
