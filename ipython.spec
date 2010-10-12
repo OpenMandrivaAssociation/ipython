@@ -20,7 +20,10 @@ Requires:	python-pexpect >= 2.2
 Requires:	python-OpenSSL
 Suggests:	python-mpi4py
 Suggests:	wxPython
-BuildRequires: 	emacs, python-sphinx
+BuildRequires: 	emacs, python-sphinx, wxPython
+BuildRequires:	python-pexpect >= 2.2
+BuildRequires:	python-foolscap >= 0.2.6
+BuildRequires:	python-twisted >= 8.0.1
 %py_requires -d 
 
 %description
@@ -60,7 +63,7 @@ which tries to:
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
 PYTHONDONTWRITEBYTECODE= %__python setup.py build
 pushd docs
-export PYTHONPATH=`dir -d ../build/lib*`
+export PYTHONPATH=`dir -d ../build/lib/`
 %make html
 popd
 
