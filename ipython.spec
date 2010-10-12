@@ -59,8 +59,10 @@ which tries to:
 %build
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
 PYTHONDONTWRITEBYTECODE= %__python setup.py build
+pushd docs
 export PYTHONPATH=`dir -d ../build/lib*`
-%make -C docs/ html
+%make html
+popd
 
 %install
 %__rm -rf %{buildroot}
