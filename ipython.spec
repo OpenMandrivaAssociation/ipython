@@ -64,12 +64,16 @@ emacs -batch -f batch-byte-compile docs/emacs/ipython.el
 PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record=FILELIST
 %__mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
 %__install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
+%__rm -f %{buildroot}%{_docdir}/%{name}/manual/ipython.pdf
+cp -f README.txt %{buildroot}%{_docdir}/%{name}
 
 %clean
 %__rm -rf %{buildroot}
 
-%files -f FILELIST
+%files
 %defattr(-,root,root)
-%doc README.txt docs/examples
+%{_bindir}/*
 %{_datadir}/emacs/site-lisp/*
-%exclude %_datadir/doc/ipython/manual/ipython.pdf
+%{_docdir}/%{name}
+%{_mandir}/man1/*
+%{py_sitedir}/*
