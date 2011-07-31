@@ -1,79 +1,89 @@
 %define name	 ipython
-%define version  0.10.2
-%define rel 	 1
+%define version  0.11
+%define release	 %mkrel 1
 
-Summary: 	An enhanced interactive Python shell
-Name: 		%{name}
-Version: 	%{version}
-Release: 	%mkrel %{rel}
-Source0: 	http://ipython.scipy.org/dist/%{name}-%{version}.tar.gz
-Patch0:		setupbase.py.patch
-License: 	BSD-like
-Group: 		Development/Python
-Url: 		http://ipython.scipy.org
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildArch:      noarch
-Requires:	python-zope-interface >= 3.4.1
-Requires:	python-twisted >= 8.0.1
-Requires:	python-foolscap >= 0.2.6
-Requires:	python-pexpect >= 2.2
-Requires:	python-OpenSSL
-Suggests:	python-mpi4py
-Suggests:	wxPython
-BuildRequires: 	emacs
-%py_requires -d 
+Summary:	 An interactive computing environment for Python 
+Name:		 %{name}
+Version:	 %{version}
+Release:	 %{release}
+Source0:	 http://pypi.python.org/packages/source/i/%{ipython}/%{name}-%{version}.tar.gz
+License:	 BSD
+Group:		 Development/Python
+Url:		 http://ipython.org
+BuildRoot:	 %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildArch:	 noarch
+Requires:	 python >= 2.6
+Requires:	 python-pexpect >= 2.2
+Suggests:	 python-mpi4py
+Suggests:	 wxPython, python-qt4, pyside >= 1.0.3
+Suggests:	 python-pygments 
+Suggests:	 python-pyzmq >= 2.1.4
+BuildRequires:	 emacs
 
 %description
-IPython is a free software project (released under the BSD license)
-which tries to:
+The goal of IPython is to create a comprehensive environment for
+interactive and exploratory computing. To support this goal, IPython
+has two main components:
 
-* Provide an interactive shell superior to Python's default. IPython
-  has many features for object introspection, system shell access,
-  and its own special command system for adding functionality when
-  working interactively. It tries to be a very efficient environment
-  both for Python code development and for exploration of problems
-  using Python objects (in situations like data analysis).
+* An enhanced interactive Python shell.
+* An architecture for interactive parallel computing.
 
-* Serve as an embeddable, ready to use interpreter for your own
-  programs. IPython can be started with a single call from inside
-  another program, providing access to the current namespace. This
-  can be very useful both for debugging purposes and for situations
-  where a blend of batch-processing and interactive exploration are
-  needed.
+The enhanced interactive Python shell has the following main features:
 
-* Offer a flexible framework which can be used as the base
-  environment for other systems with Python as the underlying
-  language. Specifically scientific environments like Mathematica,
-  IDL and Matlab inspired its design, but similar ideas can be
-  useful in many fields.
+* Comprehensive object introspection.
+* Input history, persistent across sessions.
+* Caching of output results during a session with automatically
+  generated references.
+* Readline based name completion.
+* Extensible system of 'magic' commands for controlling the
+  environment and performing many tasks related either to IPython or
+  the operating system.
+* Configuration system with easy switching between different setups
+  (simpler than changing $PYTHONSTARTUP environment variables every
+  time).
+* Session logging and reloading.
+* Extensible syntax processing for special purpose situations.
+* Access to the system shell with user-extensible alias system.
+* Easily embeddable in other Python programs and wxPython GUIs.
+* Integrated access to the pdb debugger and the Python profiler.
 
-* Allow interactive testing of threaded graphical toolkits. IPython
-  has support for interactive, non-blocking control of GTK, Qt and
-  WX applications via special threading flags. The normal Python
-  shell can only do this for Tkinter applications.
+The parallel computing architecture has the following main features:
+
+* Quickly parallelize Python code from an interactive Python/IPython
+  session.
+* A flexible and dynamic process model that be deployed on anything
+  from multicore workstations to supercomputers.
+* An architecture that supports many different styles of parallelism,
+  from message passing to task farming.
+* Both blocking and fully asynchronous interfaces.
+* High level APIs that enable many things to be parallelized in a few
+  lines of code.
+* Share live parallel jobs with other users securely.
+* Dynamically load balanced task farming system.  
+* Robust error handling in parallel code.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p0
 
 %build
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
 
 %install
 %__rm -rf %{buildroot}
-PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record=FILELIST
+PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot}
 %__mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
 %__install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
-%__rm -f %{buildroot}%{_docdir}/%{name}/manual/ipython.pdf
-cp -f README.txt %{buildroot}%{_docdir}/%{name}
+chmod 644 %{buildroot}%{_mandir}/man1/*.1*
+find %{buildroot} -name .buildinfo -exec rm -f {} \;
+find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
 %clean
 %__rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%doc docs/examples
 %{_bindir}/*
-%{_datadir}/emacs/site-lisp/*
-%{_docdir}/%{name}
-%{_mandir}/man1/*
 %{py_sitedir}/*
+%{_datadir}/emacs/site-lisp/*
+%{_mandir}/man1/*
