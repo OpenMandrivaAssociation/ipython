@@ -1,6 +1,6 @@
 %define name	 ipython
 %define version  0.11
-%define release	 %mkrel 1
+%define release	 %mkrel 2
 
 Summary:	 An interactive computing environment for Python 
 Name:		 %{name}
@@ -18,7 +18,7 @@ Suggests:	 python-mpi4py
 Suggests:	 wxPython, python-qt4, pyside >= 1.0.3
 Suggests:	 python-pygments 
 Suggests:	 python-pyzmq >= 2.1.4
-BuildRequires:	 emacs
+BuildRequires:	 emacs, python-devel
 
 %description
 The goal of IPython is to create a comprehensive environment for
