@@ -14,13 +14,16 @@ BuildRoot:	 %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildArch:	 noarch
 Requires:	 python >= 2.6
 Requires:	 python-pexpect >= 2.2
-Suggests:	 emacs-python-mode
 Suggests:	 python-mpi4py
 Suggests:	 wxPython, python-qt4, pyside >= 1.0.3
 Suggests:	 python-pygments 
 Suggests:	 python-pyzmq >= 2.1.4
 Suggests:	 python-tornado >= 2.1
-BuildRequires:	 emacs, emacs-python-mode, python-devel
+BuildRequires:	 emacs, python-devel
+%if %{mdkversion} >= 201100
+Suggests:	emacs-python-mode
+BuildRequires:	emacs-python-mode
+%endif
 
 %description
 IPython provides a rich toolkit to help you make the most out of using
