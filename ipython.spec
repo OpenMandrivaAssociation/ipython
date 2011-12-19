@@ -1,8 +1,8 @@
 %define name	 ipython
-%define version  0.11
-%define release	 %mkrel 2
+%define version  0.12
+%define release	 %mkrel 1
 
-Summary:	 An interactive computing environment for Python 
+Summary:	 IPython: Productive Interactive Computing
 Name:		 %{name}
 Version:	 %{version}
 Release:	 %{release}
@@ -14,53 +14,26 @@ BuildRoot:	 %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildArch:	 noarch
 Requires:	 python >= 2.6
 Requires:	 python-pexpect >= 2.2
+Suggests:	 emacs-python-mode
 Suggests:	 python-mpi4py
 Suggests:	 wxPython, python-qt4, pyside >= 1.0.3
 Suggests:	 python-pygments 
 Suggests:	 python-pyzmq >= 2.1.4
-BuildRequires:	 emacs, python-devel
+Suggests:	 python-tornado >= 2.1
+BuildRequires:	 emacs, emacs-python-mode, python-devel
 
 %description
-The goal of IPython is to create a comprehensive environment for
-interactive and exploratory computing. To support this goal, IPython
-has two main components:
+IPython provides a rich toolkit to help you make the most out of using
+Python interactively. Its main components are:
 
-* An enhanced interactive Python shell.
-* An architecture for interactive parallel computing.
-
-The enhanced interactive Python shell has the following main features:
-
-* Comprehensive object introspection.
-* Input history, persistent across sessions.
-* Caching of output results during a session with automatically
-  generated references.
-* Readline based name completion.
-* Extensible system of 'magic' commands for controlling the
-  environment and performing many tasks related either to IPython or
-  the operating system.
-* Configuration system with easy switching between different setups
-  (simpler than changing $PYTHONSTARTUP environment variables every
-  time).
-* Session logging and reloading.
-* Extensible syntax processing for special purpose situations.
-* Access to the system shell with user-extensible alias system.
-* Easily embeddable in other Python programs and wxPython GUIs.
-* Integrated access to the pdb debugger and the Python profiler.
-
-The parallel computing architecture has the following main features:
-
-* Quickly parallelize Python code from an interactive Python/IPython
-  session.
-* A flexible and dynamic process model that be deployed on anything
-  from multicore workstations to supercomputers.
-* An architecture that supports many different styles of parallelism,
-  from message passing to task farming.
-* Both blocking and fully asynchronous interfaces.
-* High level APIs that enable many things to be parallelized in a few
-  lines of code.
-* Share live parallel jobs with other users securely.
-* Dynamically load balanced task farming system.  
-* Robust error handling in parallel code.
+* Powerful Python shells (terminal- and Qt-based).
+* A web-based notebook with the same core features but support for
+  rich media, text, code, mathematical expressions and inline plots.
+* Support for interactive data visualization and use of 
+  GUI toolkits.
+* Flexible, embeddable interpreters to load into your own
+  projects.
+* Tools for high level and interactive parallel computing.
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -75,6 +48,7 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot}
 %__install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
 chmod 644 %{buildroot}%{_mandir}/man1/*.1*
 find %{buildroot} -name .buildinfo -exec rm -f {} \;
+find docs/html -name .buildinfo -exec rm -f {} \;
 find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
 %clean
@@ -82,7 +56,7 @@ find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
 %files
 %defattr(-,root,root)
-%doc docs/examples
+%doc docs/html docs/examples 
 %{_bindir}/*
 %{py_sitedir}/*
 %{_datadir}/emacs/site-lisp/*
