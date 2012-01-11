@@ -1,12 +1,13 @@
 %define name	 ipython
 %define version  0.12
-%define release	 %mkrel 1
+%define release	 %mkrel 2
 
 Summary:	 IPython: Productive Interactive Computing
 Name:		 %{name}
 Version:	 %{version}
 Release:	 %{release}
 Source0:	 http://pypi.python.org/packages/source/i/%{ipython}/%{name}-%{version}.tar.gz
+Source1:	 ipython.elc
 License:	 BSD
 Group:		 Development/Python
 Url:		 http://ipython.org
@@ -20,8 +21,8 @@ Suggests:	 python-pygments
 Suggests:	 python-pyzmq >= 2.1.4
 Suggests:	 python-tornado >= 2.1
 BuildRequires:	 emacs, python-devel
-%if %{mdkversion} >= 201100
-Suggests:	emacs-python-mode
+Suggests:	 emacs-python-mode
+%if %{mdkversion} > 201100
 BuildRequires:	emacs-python-mode
 %endif
 
@@ -42,7 +43,11 @@ Python interactively. Its main components are:
 %setup -q -n %{name}-%{version}
 
 %build
+%if %{mdkversion} > 201100
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
+%else
+cp %SOURCE1 docs/emacs/
+%endif
 
 %install
 %__rm -rf %{buildroot}
