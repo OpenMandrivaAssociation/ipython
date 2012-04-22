@@ -13,6 +13,7 @@ Version:	 %{version}
 Release:	 %{release}
 Source0:	 http://pypi.python.org/packages/source/i/%{ipython}/%{name}-%{version}.tar.gz
 Source1:	 ipython.elc
+Source2:	 html.tar.gz
 License:	 BSD
 Group:		 Development/Python
 Url:		 http://ipython.org
@@ -25,7 +26,7 @@ Suggests:	 wxPython, python-qt4, pyside >= 1.0.3
 Suggests:	 python-pygments 
 Suggests:	 python-pyzmq >= 2.1.4
 Suggests:	 python-tornado >= 2.1
-BuildRequires:	 emacs, python-devel, python-sphinx, python-matplotlib
+BuildRequires:	 emacs, python-devel
 Suggests:	 emacs-python-mode
 %if %{mdkversion} > 201100
 BuildRequires:	emacs-python-mode
@@ -54,10 +55,7 @@ emacs -batch -f batch-byte-compile docs/emacs/ipython.el
 %else
 cp %SOURCE1 docs/emacs/
 %endif
-pushd docs
-export PYTHONPATH=../build/lib
-%make html
-popd
+tar zxf %SOURCE2
 
 %install
 %__rm -rf %{buildroot}
@@ -65,6 +63,9 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot}
 %__mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
 %__install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
 chmod 644 %{buildroot}%{_mandir}/man1/*.1*
+find html -type d -exec chmod 755 {} \;
+find html -type f -exec chmod 644 {} \;
+find html -name .buildinfo -exec rm -f {} \;
 find %{buildroot} -name .buildinfo -exec rm -f {} \;
 find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
@@ -73,7 +74,7 @@ find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
 %files
 %defattr(-,root,root)
-%doc docs/build/html docs/examples 
+%doc html/ docs/examples 
 %{_bindir}/*
 %{py_sitedir}/*
 %{_datadir}/emacs/site-lisp/*
