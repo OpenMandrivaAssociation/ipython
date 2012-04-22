@@ -25,7 +25,7 @@ Suggests:	 wxPython, python-qt4, pyside >= 1.0.3
 Suggests:	 python-pygments 
 Suggests:	 python-pyzmq >= 2.1.4
 Suggests:	 python-tornado >= 2.1
-BuildRequires:	 emacs, python-devel, python-sphinx
+BuildRequires:	 emacs, python-devel, python-sphinx, python-matplotlib
 Suggests:	 emacs-python-mode
 %if %{mdkversion} > 201100
 BuildRequires:	emacs-python-mode
