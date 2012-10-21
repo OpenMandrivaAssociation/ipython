@@ -1,5 +1,5 @@
 %define name	 ipython
-%define version  0.13
+%define version  0.13.1
 %define	rel		 1	
 %if %mdkversion < 201100
 %define release	 %mkrel %rel
