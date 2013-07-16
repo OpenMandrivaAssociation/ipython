@@ -1,15 +1,18 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	0.11
-Release:	4
+Version:	0.13.1
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
 Source0:	http://pypi.python.org/packages/source/i/%{ipython}/%{name}-%{version}.tar.gz
+Source1:        ipython.elc
+Source2:        html.tar.xz
 BuildArch:	noarch
 
 BuildRequires:	emacs
 BuildRequires:	pkgconfig(python)
+BuildRequires:  emacs-python-mode
 Requires:	python >= 2.6
 Requires:	python-pexpect >= 2.2
 Suggests:	pyside >= 1.0.3
