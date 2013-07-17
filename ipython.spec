@@ -12,6 +12,7 @@ BuildArch:	noarch
 
 BuildRequires:	emacs
 BuildRequires:	pkgconfig(python)
+BuildRequires:  emacs-python-mode
 Requires:	python >= 2.6
 Requires:	python-pexpect >= 2.2
 Suggests:	pyside >= 1.0.3
