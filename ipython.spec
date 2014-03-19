@@ -102,11 +102,6 @@ pushd python2
 PYTHONDONTWRITEBYTECODE= python setup.py install --root=%{buildroot}
 mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
 install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
-pushd %{buildroot}%{_bindir} \
-for i in .* do \
-    mv $i python3-$i \
-done \
-popd
 popd
 
 chmod 644 %{buildroot}%{_mandir}/man1/*.1*
