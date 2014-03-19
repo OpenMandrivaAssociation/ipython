@@ -1,7 +1,7 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
 Version:	0.13.1
-Release:	5
+Release:	6
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
@@ -12,6 +12,9 @@ BuildArch:	noarch
 
 BuildRequires:	emacs
 BuildRequires:	pkgconfig(python)
+BuildRequires:  pkgconfig(python3)
+BuildRequires:  python-distribute
+BuildRequires:  python3-distribute
 BuildRequires:  emacs-python-mode
 Requires:	python >= 2.6
 Requires:	python-pexpect >= 2.2
@@ -64,27 +67,67 @@ The parallel computing architecture has the following main features:
 * Dynamically load balanced task farming system.  
 * Robust error handling in parallel code.
 
+%package -n python3-ipython
+Summary:        An interactive computing environment for Python3
+Group:          Development/Python
+License:        BSD
+Requires:	python3
+Requires:	python3-pexpect
+#Suggests:	pyside
+#Suggests:	python-mpi4py
+#Suggests:	python-pygments
+#Suggests:	python-pyzmq >= 2.1.4
+#Suggests:	python-qt4
+#Suggests:	wxPython
+
+%description -n python3-ipython
+IPython built for Python3
+
 %prep
-%setup -q
+%setup -qc
+mv %{name}-%{version} python2
+cp -a python2 python3
 
 %build
+pushd python2
 emacs -batch -f batch-byte-compile docs/emacs/ipython.el
+popd
 
 %install
-PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot}
+pushd python3
+PYTHONDONTWRITEBYTECODE= python3 setup.py install --root=%{buildroot}
+popd
+
+pushd python2
+PYTHONDONTWRITEBYTECODE= python setup.py install --root=%{buildroot}
 mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
 install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
+pushd %{buildroot}%{_bindir} \
+for i in .* do \
+    mv $i python3-$i \
+done \
+popd
+popd
+
 chmod 644 %{buildroot}%{_mandir}/man1/*.1*
 find %{buildroot} -name .buildinfo -exec rm -f {} \;
 find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
 # Drop shebang from non-executable scripts to make rpmlint happy
 find %{buildroot}%{py_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
+#find %{buildroot}%{py3_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
 
 %files
-%doc docs/examples
+%doc python2/docs/examples
 %{_bindir}/*
-%{py_sitedir}/*
+%exclude %{_bindir}/*3
+%{py_puresitedir}/*
 %{_datadir}/emacs/site-lisp/*
 %{_mandir}/man1/*
+
+%files -n python3-ipython
+%doc python3/docs/examples
+%{_bindir}/*3
+%{py3_puresitedir}/*
+
 
