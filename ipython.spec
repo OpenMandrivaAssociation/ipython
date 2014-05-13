@@ -1,13 +1,11 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	0.13.1
-Release:	6
+Version:	1.2.1
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
 Source0:	http://pypi.python.org/packages/source/i/%{ipython}/%{name}-%{version}.tar.gz
-Source1:        ipython.elc
-Source2:        html.tar.xz
 BuildArch:	noarch
 
 BuildRequires:	emacs
@@ -113,7 +111,6 @@ find %{buildroot}%{py_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin
 #find %{buildroot}%{py3_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
 
 %files
-%doc python2/docs/examples
 %{_bindir}/*
 %exclude %{_bindir}/*3
 %{py_puresitedir}/*
@@ -121,8 +118,5 @@ find %{buildroot}%{py_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin
 %{_mandir}/man1/*
 
 %files -n python3-ipython
-%doc python3/docs/examples
 %{_bindir}/*3
 %{py3_puresitedir}/*
-
-
