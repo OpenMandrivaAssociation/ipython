@@ -1,19 +1,17 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	1.2.1
-Release:	3
+Version:	2.3.0
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
 Source0:	http://pypi.python.org/packages/source/i/%{ipython}/%{name}-%{version}.tar.gz
 BuildArch:	noarch
 
-BuildRequires:	emacs
 BuildRequires:	pkgconfig(python)
 BuildRequires:  pkgconfig(python3)
-BuildRequires:  python-distribute
+BuildRequires:  python2-distribute
 BuildRequires:  python3-distribute
-BuildRequires:  emacs-python-mode
 Requires:	python >= 2.6
 Requires:	python-pexpect >= 2.2
 Suggests:	pyside >= 1.0.3
@@ -22,6 +20,7 @@ Suggests:	python-pygments
 Suggests:	python-pyzmq >= 2.1.4
 Suggests:	python-qt4
 Suggests:	wxPython
+%rename		python3-ipython
 
 %description
 The goal of IPython is to create a comprehensive environment for
@@ -65,8 +64,8 @@ The parallel computing architecture has the following main features:
 * Dynamically load balanced task farming system.  
 * Robust error handling in parallel code.
 
-%package -n python3-ipython
-Summary:        An interactive computing environment for Python3
+%package -n python2-ipython
+Summary:        An interactive computing environment for Python 2
 Group:          Development/Python
 License:        BSD
 Requires:	python3
@@ -78,18 +77,13 @@ Requires:	python3-pexpect
 #Suggests:	python-qt4
 #Suggests:	wxPython
 
-%description -n python3-ipython
-IPython built for Python3
+%description -n python2-ipython
+IPython built for Python2
 
 %prep
 %setup -qc
 mv %{name}-%{version} python2
 cp -a python2 python3
-
-%build
-pushd python2
-emacs -batch -f batch-byte-compile docs/emacs/ipython.el
-popd
 
 %install
 pushd python3
@@ -97,9 +91,7 @@ PYTHONDONTWRITEBYTECODE= python3 setup.py install --root=%{buildroot}
 popd
 
 pushd python2
-PYTHONDONTWRITEBYTECODE= python setup.py install --root=%{buildroot}
-mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
-install -m 644 docs/emacs/ipython.el* %{buildroot}%{_datadir}/emacs/site-lisp/
+PYTHONDONTWRITEBYTECODE= python2 setup.py install --root=%{buildroot}
 popd
 
 chmod 644 %{buildroot}%{_mandir}/man1/*.1*
@@ -107,16 +99,15 @@ find %{buildroot} -name .buildinfo -exec rm -f {} \;
 find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
 # Drop shebang from non-executable scripts to make rpmlint happy
-find %{buildroot}%{py_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
+#find %{buildroot}%{py_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
 #find %{buildroot}%{py3_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
 
 %files
-%{_bindir}/*
-%exclude %{_bindir}/*3
-%{py_puresitedir}/*
-%{_datadir}/emacs/site-lisp/*
-%{_mandir}/man1/*
-
-%files -n python3-ipython
 %{_bindir}/*3
 %{py3_puresitedir}/*
+%{_mandir}/man1/*
+
+%files -n python2-ipython
+%{_bindir}/*
+%exclude %{_bindir}/*3
+%{py2_puresitedir}/*
