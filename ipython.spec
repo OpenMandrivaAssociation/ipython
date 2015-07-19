@@ -1,7 +1,7 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
 Version:	2.3.0
-Release:	2
+Release:	3
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
