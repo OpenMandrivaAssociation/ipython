@@ -1,26 +1,25 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	2.3.0
-Release:	4
+Version:	6.2.1
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
-Source0:	http://pypi.python.org/packages/source/i/%{ipython}/%{name}-%{version}.tar.gz
+Source0:	https://pypi.python.org/packages/fa/50/974211502bd72873728d44c3013fe79875c819c8fb69f778bcfd67bc7d38/ipython-%{version}.tar.gz
 BuildArch:	noarch
 
-BuildRequires:	pkgconfig(python)
 BuildRequires:  pkgconfig(python3)
-BuildRequires:  python2-distribute
 BuildRequires:  python3-distribute
-Requires:	python >= 2.6
+Requires:	python >= 3.6
 Requires:	python-pexpect >= 2.2
 Suggests:	pyside >= 1.0.3
 Suggests:	python-mpi4py
 Suggests:	python-pygments 
 Suggests:	python-pyzmq >= 2.1.4
-Suggests:	python-qt4
-Suggests:	wxPython
 %rename		python3-ipython
+
+# Python 2.x has been dropped in the ipython 6.x series
+Obsoletes:	python2-ipython
 
 %description
 The goal of IPython is to create a comprehensive environment for
@@ -64,50 +63,17 @@ The parallel computing architecture has the following main features:
 * Dynamically load balanced task farming system.  
 * Robust error handling in parallel code.
 
-%package -n python2-ipython
-Summary:        An interactive computing environment for Python 2
-Group:          Development/Python
-License:        BSD
-Requires:	python3
-Requires:	python3-pexpect
-#Suggests:	pyside
-#Suggests:	python-mpi4py
-#Suggests:	python-pygments
-#Suggests:	python-pyzmq >= 2.1.4
-#Suggests:	python-qt4
-#Suggests:	wxPython
-
-%description -n python2-ipython
-IPython built for Python2
-
 %prep
-%setup -qc
-mv %{name}-%{version} python2
-cp -a python2 python3
+%setup -q
 
 %install
-pushd python3
-PYTHONDONTWRITEBYTECODE= python3 setup.py install --root=%{buildroot}
-popd
-
-pushd python2
-PYTHONDONTWRITEBYTECODE= python2 setup.py install --root=%{buildroot}
-popd
+PYTHONDONTWRITEBYTECODE= python setup.py install --root=%{buildroot}
 
 chmod 644 %{buildroot}%{_mandir}/man1/*.1*
 find %{buildroot} -name .buildinfo -exec rm -f {} \;
 find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
 
-# Drop shebang from non-executable scripts to make rpmlint happy
-#find %{buildroot}%{py_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
-#find %{buildroot}%{py3_sitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
-
 %files
-%{_bindir}/*3
-%{py3_puresitedir}/*
-%{_mandir}/man1/*
-
-%files -n python2-ipython
 %{_bindir}/*
-%exclude %{_bindir}/*3
-%{py2_puresitedir}/*
+%{py_puresitedir}/*
+%{_mandir}/man1/*
