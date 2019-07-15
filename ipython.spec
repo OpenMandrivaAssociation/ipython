@@ -1,11 +1,11 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	6.2.1
-Release:	4
+Version:	7.6.1
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
-Source0:	https://pypi.python.org/packages/fa/50/974211502bd72873728d44c3013fe79875c819c8fb69f778bcfd67bc7d38/ipython-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/d6/1d/7c18855e2bf7e4da52fc62f486c1c5166b21470e87925b28dba35aac7b20/ipython-7.6.1.tar.gz
 BuildArch:	noarch
 
 BuildRequires:  pkgconfig(python3)
