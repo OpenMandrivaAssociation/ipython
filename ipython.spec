@@ -1,21 +1,21 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	7.9.0
-Release:	2
+Version:	7.21.0
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url:		http://ipython.org
-Source0:	https://files.pythonhosted.org/packages/c0/e5/ba19ae58e9bdd80832332873cb4e11a90cf2049df052c1aadeabc2cdadeb/ipython-7.9.0.tar.gz
+Source0:	https://files.pythonhosted.org/packages/c0/e5/ba19ae58e9bdd80832332873cb4e11a90cf2049df052c1aadeabc2cdadeb/ipython-%{version}.tar.gz
 BuildArch:	noarch
 
-BuildRequires:  pkgconfig(python3)
-BuildRequires:  python3-distribute
+BuildRequires:  pkgconfig(python)
+BuildRequires:  python3dist(setuptools)
 Requires:	python >= 3.6
 Requires:	python-pexpect >= 2.2
-Suggests:	pyside >= 1.0.3
-Suggests:	python-mpi4py
-Suggests:	python-pygments 
-Suggests:	python-pyzmq >= 2.1.4
+Recommends:	pyside >= 1.0.3
+Recommends:	python-mpi4py
+Recommends:	python-pygments 
+Recommends:	python-pyzmq >= 2.1.4
 %rename		python3-ipython
 
 # Python 2.x has been dropped in the ipython 6.x series
