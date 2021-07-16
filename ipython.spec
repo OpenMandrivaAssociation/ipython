@@ -1,6 +1,6 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	7.21.0
+Version:	7.25.0
 Release:	1
 License:	BSD
 Group:		Development/Python
