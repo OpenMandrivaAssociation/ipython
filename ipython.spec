@@ -4,7 +4,7 @@ Version:	7.25.0
 Release:	2
 License:	BSD
 Group:		Development/Python
-Url:		http://ipython.org
+Url:		https://ipython.org
 Source0:	https://files.pythonhosted.org/packages/c0/e5/ba19ae58e9bdd80832332873cb4e11a90cf2049df052c1aadeabc2cdadeb/ipython-%{version}.tar.gz
 BuildArch:	noarch
 
