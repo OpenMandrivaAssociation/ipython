@@ -1,15 +1,15 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	7.25.0
-Release:	3
+Version:	9.8.0
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url:		https://ipython.org
-Source0:	https://files.pythonhosted.org/packages/c0/e5/ba19ae58e9bdd80832332873cb4e11a90cf2049df052c1aadeabc2cdadeb/ipython-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/i/ipython/ipython-%{version}.tar.gz
 BuildArch:	noarch
 
 BuildRequires:  pkgconfig(python)
-BuildRequires:  python3dist(setuptools)
+BuildRequires:  python%{pyver}dist(setuptools)
 Requires:	python >= 3.6
 Requires:	python-pexpect >= 2.2
 Recommends:	pyside >= 1.0.3
