@@ -1,8 +1,8 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	9.8.0
+Version:	9.10.0
 Release:	1
-License:	BSD
+License:	BSD-3-Clause
 Group:		Development/Python
 Url:		https://ipython.org
 Source0:	https://files.pythonhosted.org/packages/source/i/ipython/ipython-%{version}.tar.gz
