@@ -1,6 +1,6 @@
 Summary:	An interactive computing environment for Python 
 Name:		ipython
-Version:	9.10.0
+Version:	9.11.0
 Release:	1
 License:	BSD-3-Clause
 Group:		Development/Python
