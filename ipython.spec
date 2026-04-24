@@ -1,21 +1,24 @@
-Summary:	An interactive computing environment for Python 
+%define oname IPython
+
 Name:		ipython
-Version:	9.12.0
+Summary:	An interactive computing environment for Python 
+Version:	9.13.0
 Release:	1
 License:	BSD-3-Clause
 Group:		Development/Python
-Url:		https://ipython.org
+URL:		https://ipython.org
 Source0:	https://files.pythonhosted.org/packages/source/i/ipython/ipython-%{version}.tar.gz
-BuildArch:	noarch
 
-BuildRequires:  pkgconfig(python)
-BuildRequires:  python%{pyver}dist(setuptools)
-Requires:	python >= 3.6
-Requires:	python-pexpect >= 2.2
+BuildSystem:  python
+BuildArch:	noarch
+BuildRequires:	fdupes
+BuildRequires:	pkgconfig(python)
+BuildRequires:	python%{pyver}dist(setuptools)
+BuildRequires:	python%{pyver}dist(wheel)
+Requires:	python >= 3.11
 Recommends:	pyside >= 1.0.3
-Recommends:	python-mpi4py
-Recommends:	python-pygments 
-Recommends:	python-pyzmq >= 2.1.4
+Recommends:	python%{pyver}dist(mpi4py)
+Recommends:	python%{pyver}dist(pygments)
 %rename		python3-ipython
 
 # Python 2.x has been dropped in the ipython 6.x series
@@ -63,17 +66,19 @@ The parallel computing architecture has the following main features:
 * Dynamically load balanced task farming system.  
 * Robust error handling in parallel code.
 
-%prep
-%setup -q
+%prep -a
+# Remove bundled egg-info
+rm -rf %{name}.egg-info
 
-%install
-PYTHONDONTWRITEBYTECODE= python setup.py install --root=%{buildroot}
-
-chmod 644 %{buildroot}%{_mandir}/man1/*.1*
-find %{buildroot} -name .buildinfo -exec rm -f {} \;
-find %{buildroot} -name .git_commit_info.ini -exec rm -rf {} \;
+%install -a
+# These can be run stand-alone, so make them executable rather than removing shebang
+find %{buildroot}%{python_sitelib} -type f -name "*.py" -exec sed -i "s|^#!%{_bindir}/env python$|#!%{__python}|" {} \;
+find %{buildroot}%{python_sitelib} -type f -name "*.py" -exec sed -i "s|^#!%{_bindir}/python$|#!%{__python}|" {} \;
+find %{buildroot}%{python_sitelib} -type f -name "*.py" -exec grep -q "#!%{__python}" {} \; -exec chmod a+x {} \;
 
 %files
-%{_bindir}/*
-%{py_puresitedir}/*
-%{_mandir}/man1/*
+%{_bindir}/%{name}
+%{_bindir}/%{name}3
+%{_mandir}/man1/%{name}.1.*
+%{python_sitelib}/%{oname}
+%{python_sitelib}/%{name}-%{version}.dist-info
