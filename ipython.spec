@@ -1,13 +1,14 @@
+%define module ipython
 %define oname IPython
 
 Name:		ipython
-Summary:	An interactive computing environment for Python 
-Version:	9.13.0
+Summary:	An interactive computing environment for Python
+Version:	9.14.0
 Release:	1
 License:	BSD-3-Clause
 Group:		Development/Python
 URL:		https://ipython.org
-Source0:	https://files.pythonhosted.org/packages/source/i/ipython/ipython-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/i/%{module}/%{module}-%{version}.tar.gz
 
 BuildSystem:  python
 BuildArch:	noarch
@@ -15,10 +16,8 @@ BuildRequires:	fdupes
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(wheel)
-Requires:	python >= 3.11
 Recommends:	pyside >= 1.0.3
 Recommends:	python%{pyver}dist(mpi4py)
-Recommends:	python%{pyver}dist(pygments)
 %rename		python3-ipython
 
 # Python 2.x has been dropped in the ipython 6.x series
@@ -71,14 +70,16 @@ The parallel computing architecture has the following main features:
 rm -rf %{name}.egg-info
 
 %install -a
-# These can be run stand-alone, so make them executable rather than removing shebang
-find %{buildroot}%{python_sitelib} -type f -name "*.py" -exec sed -i "s|^#!%{_bindir}/env python$|#!%{__python}|" {} \;
-find %{buildroot}%{python_sitelib} -type f -name "*.py" -exec sed -i "s|^#!%{_bindir}/python$|#!%{__python}|" {} \;
-find %{buildroot}%{python_sitelib} -type f -name "*.py" -exec grep -q "#!%{__python}" {} \; -exec chmod a+x {} \;
+# Link the manpage to ipython3
+mv %{buildroot}%{_mandir}/man1/ipython{,3}.1
+ln -s ./ipython3.1 %{buildroot}%{_mandir}/man1/ipython.1
+
+%fdupes %{buildroot}%{_bindir}
+%fdupes %{buildroot}%{_mandir}
 
 %files
 %{_bindir}/%{name}
 %{_bindir}/%{name}3
-%{_mandir}/man1/%{name}.1.*
+%{_mandir}/man1/%{name}{,3}.1.*
 %{python_sitelib}/%{oname}
 %{python_sitelib}/%{name}-%{version}.dist-info
