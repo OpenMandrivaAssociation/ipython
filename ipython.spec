@@ -3,7 +3,7 @@
 
 Name:		ipython
 Summary:	An interactive computing environment for Python
-Version:	9.14.0
+Version:	9.14.1
 Release:	1
 License:	BSD-3-Clause
 Group:		Development/Python
