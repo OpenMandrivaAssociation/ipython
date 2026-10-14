@@ -3,7 +3,7 @@
 
 Name:		ipython
 Summary:	An interactive computing environment for Python
-Version:	9.16.0
+Version:	9.17.1
 Release:	1
 License:	BSD-3-Clause
 Group:		Development/Python
@@ -13,7 +13,7 @@ Source0:	https://files.pythonhosted.org/packages/source/i/%{module}/%{module}-%{
 BuildSystem:  python
 BuildArch:	noarch
 BuildRequires:	fdupes
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(wheel)
 Recommends:	pyside >= 1.0.3
